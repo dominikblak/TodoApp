@@ -1,0 +1,12 @@
+<div style="margin-top: 30px">
+ <form [formGroup] = "addForm" (ngSubmit)="add()">
+   <div formArrayName="taskName">
+     <div *ngFor="let task of addForm.get('taskName')['controls']; let i = index">
+      <input type="text" [formControlName]="i">
+     </div>
+
+   </div>
+  <button type="submit"[disabled]="addForm.invalid">Dodaj</button>
+  <button type="button" (click)="addField()">Dodaj więcej</button>
+</form>
+</div>
