@@ -46,4 +46,4 @@ export class AddTaskComponent implements OnInit {
     const arr = <FormArray>this.addForm.get('taskName');
     arr.push(new FormControl(null, Validators.required));
   }
-}
+} 
