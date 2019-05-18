@@ -16,11 +16,11 @@ export class HttpService {
   }
 
 
-  getTasks(): Observable<Array<Task>> {
-   return this.http.get<Array<Task>>(this.URL_DB, { params: this.param });
+  getTasks(): Observable<Task[]> {
+   return this.http.get<Task[]>(this.URL_DB, { params: this.param });
   }
 
-  saveTasks(list: Array<Task>) {
+  saveTasks(list: Task[]) {
     this.http.put(this.URL_DB, list, { params: this.param }).subscribe(data => {
       console.log(data);
     });

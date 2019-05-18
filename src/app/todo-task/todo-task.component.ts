@@ -1,43 +1,44 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { TasksService } from '../services/tasks.service';
-import { Task } from '../models/task';
-
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { TasksService } from "../services/tasks.service";
+import { Task } from "../models/task";
+import { FirebaseService } from "../services/firebase.service";
+import { TaskColor } from "./task-color";
 
 @Component({
-  selector: 'app-todo-task',
-  templateUrl: './todo-task.component.html',
-  styleUrls: ['./todo-task.component.css'],
-
+  selector: "app-todo-task",
+  templateUrl: "./todo-task.component.html",
+  styleUrls: ["./todo-task.component.css"]
 })
-export class TodoTaskComponent implements OnInit {
+export class TodoTaskComponent {
+  tasksList: Task[];
 
-
-  tasksList: Array<Task> = [];
-
-
-
-  constructor(private taskservice: TasksService) {
-    this.taskservice.getTaskListObs().subscribe((tasks: Array<Task>) => {
+  constructor(
+    private taskservice: TasksService,
+    private firebaseservice: FirebaseService
+  ) {
+    this.taskservice.getTaskListObs().subscribe((tasks: Task[]) => {
       this.tasksList = tasks.filter(t => t.isDone === false);
     });
+    this.firebaseservice.getTasks().subscribe(() => {});
   }
 
-  ngOnInit() {
-  }
-
-  remove(task: Task) {
+  public remove(task: Task): void {
     this.taskservice.remove(task);
-
   }
-  done(task: Task) {
+  public done(task: Task): void {
     this.taskservice.done(task);
-
   }
+
   getColor(): string {
-    return this.tasksList.length >= 5 ? 'red' : 'green';
+    return this.tasksList.length >= 5 ? TaskColor.red : TaskColor.green;
   }
-  // save () {
-  //   this.taskservice.saveTasksInDb();
-  // }
 
+  public addTask(task: Task): void {
+    this.firebaseservice.addTask(task);
+  }
+  public addTasks(): void {
+    this.tasksList.forEach((task: Task) => {
+      this.addTask(task);
+    });
+  }
 }

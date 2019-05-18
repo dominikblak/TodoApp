@@ -9,13 +9,13 @@ export class TasksService {
 
 
 
-  private taskListObs = new BehaviorSubject<Array<Task>>([]);
+  private taskListObs = new BehaviorSubject<Task[]>([]);
 
   constructor() {
 
   }
 
-  add(task: Array<Task>) {
+  add(task: Task[]) {
     const list = this.taskListObs.getValue().concat(task);
     this.taskListObs.next(list);
 
@@ -34,7 +34,7 @@ export class TasksService {
     this.taskListObs.next(list);
 
   }
-  getTaskListObs(): Observable<Array<Task>> {
+  getTaskListObs(): Observable<Task[]> {
     return this.taskListObs.asObservable();
   }
 }

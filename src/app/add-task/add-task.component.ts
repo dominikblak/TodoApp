@@ -7,43 +7,38 @@ import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'app-add-task',
   templateUrl: './add-task.component.html',
-  styleUrls: ['./add-task.component.css']
+  styleUrls: ['./add-task.component.css'],
 })
 export class AddTaskComponent implements OnInit {
+  public addForm: FormGroup;
 
-  addForm: FormGroup;
+  constructor(private taskservice: TasksService, private authService: AuthService) {}
 
-  constructor(private taskservice: TasksService, private authService: AuthService) {
-
-  }
-
-  ngOnInit() {
+  public ngOnInit(): void {
     this.addForm = this.initForm();
   }
 
-    initForm() {
-      return new FormGroup({
-        taskName: new FormArray([new FormControl(null, Validators.required)])
-      });
-    }
-  add() {
+  public initForm(): FormGroup {
+    return new FormGroup({
+      taskName: new FormArray([new FormControl(null, Validators.required)]),
+    });
+  }
+  public add(): void {
     const taskList = this.createTaskList();
     this.taskservice.add(taskList);
     this.addForm = this.initForm();
-
   }
 
-  createTaskList(): Array<Task> {
-    const taskList = new Array<Task>();
+  public createTaskList(): Task[] {
     const TaskArr = <[string]>this.addForm.get('taskName').value;
-    TaskArr.forEach(taskName => {
-      const task = { userId: this.authService.user.uid, name: taskName, created: new Date().toLocaleString(), isDone: false };
-      taskList.push(task);
+    const taskList = TaskArr.map((taskName) => {
+      return { userId: this.authService.user.uid, name: taskName, created: new Date().toLocaleString(), isDone: false };
     });
     return taskList;
   }
-  addField() {
+
+  public addField(): void {
     const arr = <FormArray>this.addForm.get('taskName');
     arr.push(new FormControl(null, Validators.required));
   }
-} 
+}

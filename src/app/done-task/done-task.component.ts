@@ -5,19 +5,13 @@ import { Task } from '../models/task';
 @Component({
   selector: 'app-done-task',
   templateUrl: './done-task.component.html',
-  styleUrls: ['./done-task.component.css']
+  styleUrls: ['./done-task.component.css'],
 })
-export class DoneTaskComponent implements OnInit {
-
-
-  tasksDone: Array<Task> = [];
+export class DoneTaskComponent {
+  public tasksDone: Task[];
   constructor(private taskservice: TasksService) {
-    this.taskservice.getTaskListObs().subscribe((tasks: Array<Task>) => {
-      this.tasksDone = tasks.filter(t => t.isDone === true);
+    this.taskservice.getTaskListObs().subscribe((tasks: Task[]) => {
+      this.tasksDone = tasks.filter((t) => t.isDone === true);
     });
   }
-
-  ngOnInit() {
-  }
-
 }

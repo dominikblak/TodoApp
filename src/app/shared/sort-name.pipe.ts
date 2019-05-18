@@ -6,15 +6,10 @@ import { Task } from '../models/task';
 
 })
 export class SortNamePipe implements PipeTransform {
-
-  transform(value: Array<Task>, args?: any): any {
-    return value.sort((a, b) => {
-      if (a.name.toLowerCase() > b.name.toLowerCase()) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
+  transform(value: Task[], args?: Task[]): Task[] {
+    return value.sort((a: Task, b: Task) => {
+      return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
+ });
   }
 
 }
