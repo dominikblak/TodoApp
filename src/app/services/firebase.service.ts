@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-import { Observable } from 'rxjs';
+import { AngularFireDatabase, AngularFireList, SnapshotAction } from '@angular/fire/database';
+import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Task } from '../models/task';
 
@@ -12,13 +12,13 @@ export class FirebaseService {
     // Use snapshotChanges().map() to store the key
     this.taskRef = db.list('tasks');
     this.tasks = this.taskRef.snapshotChanges().pipe(
-      map((changes) =>
-        changes.map((c) => ({
-          key: c.payload.key,
-          created: c.payload.val().created,
-          isDone: c.payload.val().isDone,
-          name: c.payload.val().name,
-          userId: c.payload.val().userId,
+      map((changes: SnapshotAction<Task>[]) =>
+        changes.map(({ payload }) => ({
+          key: payload.key,
+          created: payload.val().created,
+          isDone: payload.val().isDone,
+          name: payload.val().name,
+          userId: payload.val().userId,
         })),
       ),
     );
@@ -30,5 +30,10 @@ export class FirebaseService {
 
   public addTask(task: Task): void {
     this.db.list('tasks').push(task);
+  }
+  public removeTask({ key }: Task): void {
+    console.log(key);
+    this.taskRef.remove(key);
+    // from(this.taskRef.remove());
   }
 }

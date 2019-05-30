@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TasksService } from '../services/tasks.service';
 import { Task } from '../models/task';
+import { filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-done-task',
@@ -8,10 +10,8 @@ import { Task } from '../models/task';
   styleUrls: ['./done-task.component.css'],
 })
 export class DoneTaskComponent {
-  public tasksDone: Task[];
+  public tasksDone: Observable<Task[]>;
   constructor(private taskservice: TasksService) {
-    this.taskservice.getTaskListObs().subscribe((tasks: Task[]) => {
-      this.tasksDone = tasks.filter((t) => t.isDone === true);
-    });
+    this.tasksDone = this.taskservice.getDoneTaskListObs();
   }
 }

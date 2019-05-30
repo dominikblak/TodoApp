@@ -21,8 +21,8 @@ export class TodoTaskComponent {
     });
   }
 
-  public remove(task: Task): void {
-    this.firebaseservice.taskRef.remove(task.key);
+  public removeTask(task: Task): void {
+    this.firebaseservice.removeTask(task);
   }
   public done(task: Task): void {
     this.taskservice.done(task);

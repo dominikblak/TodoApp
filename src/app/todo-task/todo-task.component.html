@@ -1,17 +1,22 @@
 <div class="container">
-<app-add-task></app-add-task>
-<ng-container *ngIf="tasksList.length > 0; else noTask">
-  <p [ngStyle]="{color: getColor()}">Zadania do wykonania: {{tasksList.length}}</p>
-  <ul>
-    <li appDate [date]="task.created" *ngFor="let task of tasksList | sortName;  let odd = odd" [ngClass]="{'odd-li': odd, 'last-li':tasksList.length===1}">
-      {{task.name | transformsTask: ' !'}}
-      <button type="button" class="btn btn-danger"(click)="remove(task)">Usuń</button>
-      <button type="button" class="btn btn-success"(click)="done(task)">Zrobione</button>
-    </li>
-  </ul>
-</ng-container>
-<ng-template #noTask>
-  <p>Brak zadań - masz czas wolny !</p>
-</ng-template>
-<button (click)="addTasks()">Zapisz</button>
+  <app-add-task></app-add-task>
+  <ng-container *ngIf="tasksList.length > 0; else noTask">
+    <p [ngStyle]="{ color: getColor() }">Zadania do wykonania: {{ tasksList.length }}</p>
+    <ul>
+      <li
+        appDate
+        [date]="task.created"
+        *ngFor="let task of tasksList | sortName; let odd = odd"
+        [ngClass]="{ 'odd-li': odd, 'last-li': tasksList.length === 1 }"
+      >
+        {{ task.name | transformsTask: ' !' }}
+        <button type="button" class="btn btn-danger" (click)="removeTask(task)">Usuń</button>
+        <button type="button" class="btn btn-success" (click)="done(task)">Zrobione</button>
+      </li>
+    </ul>
+  </ng-container>
+  <ng-template #noTask>
+    <p>Brak zadań - masz czas wolny !</p>
+  </ng-template>
+  <button (click)="addTasks()">Zapisz</button>
 </div>
