@@ -6,22 +6,19 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class HttpService {
-
   readonly URL_DB = 'https://todo-1ea4e.firebaseio.com';
   readonly param = new HttpParams().set('apiKey', 'AIzaSyASPJ3vCbOdlCiRRg7Yc0J1mGbCs17gcMY');
-
 
   constructor(private http: HttpClient) {
     this.getTasks();
   }
 
-
   getTasks(): Observable<Task[]> {
-   return this.http.get<Task[]>(this.URL_DB, { params: this.param });
+    return this.http.get<Task[]>(this.URL_DB, { params: this.param });
   }
 
   saveTasks(list: Task[]) {
-    this.http.put(this.URL_DB, list, { params: this.param }).subscribe(data => {
+    this.http.put(this.URL_DB, list, { params: this.param }).subscribe((data) => {
       console.log(data);
     });
   }

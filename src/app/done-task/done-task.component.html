@@ -1,8 +1,8 @@
 <div class="container">
-<p>Wykonane zadania  {{tasksDone.length}}</p>
-<ul>
-  <li appChecked appDate [date]="task.end" *ngFor="let task of tasksDone">
-    {{task.name |transformsTask: ' - super !'}}
-  </li>
-</ul>
+  <p>Wykonane zadania {{ (tasksDone | async)?.length }}</p>
+  <ul>
+    <li appChecked appDate [date]="task.end" *ngFor="let task of tasksDone | async">
+      {{ task.name | transformsTask: ' - super !' }}
+    </li>
+  </ul>
 </div>
