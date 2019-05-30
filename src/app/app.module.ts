@@ -28,7 +28,7 @@ const config = {
   projectId: 'todo-a3c08',
   storageBucket: 'todo-a3c08.appspot.com',
   messagingSenderId: '105684467946',
-  appId: '1:105684467946:web:3da9a8aefb02e583',
+  appId: '1:105684467946:web:3da9a8aefb02e583', 
 };
 
 @NgModule({
